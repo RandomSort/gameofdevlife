@@ -15,7 +15,7 @@ plugins {
 }
 
 // Define the main class for the application
-mainClassName = 'App'
+mainClassName = 'net.randomsort.lifeofdev.App'
 
 sourceSets.main.groovy.outputDir = new File(buildDir, "classes/groovy/main")
 
@@ -53,7 +53,7 @@ task uberjar(type: Jar) {
     manifest {
         attributes(
             // Entry point in jar archive
-            'Main-Class': 'App',
+            'Main-Class': mainClassName,
         )
     }
 }
