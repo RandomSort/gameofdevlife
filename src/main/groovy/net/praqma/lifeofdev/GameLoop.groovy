@@ -1,26 +1,25 @@
 package net.praqma.lifeofdev
 
 class GameLoop {
-  ArrayList<Actor> actors = new ArrayList<Actor>()
-  int step = 0
+  GameState gameState = new GameState()
 
   public void step() {
-    actors.each { Actor actor ->
+    gameState.actors.each { Actor actor ->
       actor.act()
 
     }
-    step++
-    println(step)
+    gameState.step++
+    println(gameState.step)
   }
 
   public void addActor(Actor a) {
-    actors.add(a)
+    gameState.actors.add(a)
   }
 
   public void print_state() {
     println("------------------------")
     println("Actors:")
-    actors.each { actor ->
+    gameState.actors.each { actor ->
       println(actor)
     }
   }
