@@ -17,4 +17,11 @@ class GameLoop {
     actors.add(a)
   }
 
+  public void print_state() {
+    println("------------------------")
+    println("Actors:")
+    actors.each { actor ->
+      println(actor)
+    }
+  }
 }

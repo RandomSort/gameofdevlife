@@ -9,8 +9,11 @@ class App {
     static void main(String[] args) {
         GameLoop g = new GameLoop()
         g.addActor(new Developer())
-        g.addActor(new Developer())
-        g.step()
-        g.step()
+        //do 10 iterations:
+        (0..10).each {
+          g.step()
+          g.print_state()
+        }
+        
     }
 }
