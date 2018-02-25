@@ -7,6 +7,10 @@ class App {
     }
 
     static void main(String[] args) {
-        println new App().greeting
+        GameLoop g = new GameLoop()
+        g.addActor(new Developer())
+        g.addActor(new Developer())
+        g.step()
+        g.step()
     }
 }

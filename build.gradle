@@ -15,7 +15,7 @@ plugins {
 }
 
 // Define the main class for the application
-mainClassName = 'net.randomsort.lifeofdev.App'
+mainClassName = 'net.praqma.lifeofdev.App'
 
 sourceSets.main.groovy.outputDir = new File(buildDir, "classes/groovy/main")
 
@@ -35,7 +35,7 @@ repositories {
 }
 
 task uberjar(type: Jar) {
-
+  group "customTasks"
     // compile the groovy-files
     dependsOn build
 
@@ -56,4 +56,9 @@ task uberjar(type: Jar) {
             'Main-Class': mainClassName,
         )
     }
+}
+
+task runLifeOfDev(dependsOn:[uberjar], type: Exec) {
+  group "customTasks"
+  commandLine "java", "-jar", "build/libs/lifeofdev.jar"
 }
