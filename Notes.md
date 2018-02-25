@@ -13,6 +13,12 @@
 
 - Can we say that value is diminished by some percentage of bugs
 - How about different degrees of bugs ( Cosmetic -> Total Outage )
+
+### What happens if we alter the _intent_ of Developers
+
+The developer can have different goals ie. add value, or remove bugs.
+What happens to the models if we tweak this prioritization?
+
 ## Random Notes
 
 - Should we add a _customer_ or _user_ `Actor`
