@@ -1,5 +1,5 @@
 package net.praqma.lifeofdev
-
+import net.praqma.lifeofdev.git.*
 
 class App {
     String getGreeting() {
@@ -8,12 +8,15 @@ class App {
 
     static void main(String[] args) {
         GameLoop g = new GameLoop()
-        g.addActor(new Developer())
-        //do 10 iterations:
-        (0..10).each {
-          g.step()
-          g.print_state()
-        }
-        
+        Developer a = new Developer()
+        Work w = new Work()
+        def changes = [w]
+
+        Commit c = new Commit([], changes, a, "this is a random string")
+        println(c)
+
+
+
+
     }
 }
