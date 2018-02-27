@@ -1,7 +1,6 @@
 package net.praqma.lifeofdev.game
 
 import net.praqma.lifeofdev.actor.Actor
-
 import net.praqma.lifeofdev.git.Repository
 
 class GameState {
@@ -15,3 +14,4 @@ class GameState {
   Repository remote = new Repository()
 
 }
+

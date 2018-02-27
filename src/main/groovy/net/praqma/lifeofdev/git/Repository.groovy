@@ -12,8 +12,25 @@ class Repository {
   Treeish HEAD
 
   public void makeCommit(Work w, Developer author, String message) {
-    Commit c = new Commit([HEAD], [w], author, message )
+    addCommit(newRepoCommit(w, author, message))
+  }
 
+  /**
+   * Creates a new commit for the repository - using the current HEAD as parent
+   * @param w
+   * @param author
+   * @param message
+   * @return
+   */
+  public Commit newRepoCommit(Work w, Developer author, String message) {
+    return new Commit([HEAD], [w], author, message)
+  }
+
+  /**
+   * Adds a commit and updates HEAD reference
+   * @param c
+   */
+  public void addCommit(Commit c){
     // add commit to repository
     commits.put(c.sha, c)
 

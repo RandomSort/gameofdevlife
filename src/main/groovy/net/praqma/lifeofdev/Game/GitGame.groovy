@@ -1,24 +1,16 @@
 package net.praqma.lifeofdev.game
 
-import net.praqma.lifeofdev.Work
 import net.praqma.lifeofdev.actor.Actor
 import net.praqma.lifeofdev.actor.Developer
-import net.praqma.lifeofdev.git.Commit
-import net.praqma.lifeofdev.git.Repository
 
 class GitGame implements Game {
 
     GameState gameState
 
     // perform setup of game
-    public GitGame(){
+    public GitGame(gameState){
 
-        gameState = new GameState()
-
-        // hardcoded setup
-
-        // a gitgame has 1 developer
-        addActor(new Developer())
+        this.gameState = gameState
 
     }
 
@@ -33,6 +25,7 @@ class GitGame implements Game {
             }
             gameState.step++
 
+            // TODO defer to logging
             println(gameState.step)
 
             // if some condition is satisfied set gameover = true
@@ -45,12 +38,22 @@ class GitGame implements Game {
 
         }
 
+    }
+
+    /**
+     * Wrapper for reporting some gamestate, before/during/after
+     *  - so the game can be run silently
+     * Might want to defer to GameState
+     */
+    public void report(){
+
         // q0: how much value is in the developers local repository?
         gameState.actors.each {
             Actor actor ->
                 if(actor.getClass() == Developer){
                     Developer d = (Developer) actor
 
+                    // TODO defer to logging
                     println "Value of Developer: " + d.toString() + " : " + d.localRepository.getValue()
 
                 }
@@ -58,14 +61,10 @@ class GitGame implements Game {
         }
 
         // q1: how much value is in the global repository?
+        // TODO defer to logging
         println "Value of remote: " + gameState.remote.getValue()
 
         // print some final state
-
-    }
-
-    public void addActor(Actor a) {
-        gameState.actors.add(a)
     }
 
     // TODO move to logging

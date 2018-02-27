@@ -1,6 +1,7 @@
 package net.praqma.lifeofdev
 
-import net.praqma.lifeofdev.git.*
+import net.praqma.lifeofdev.game.NDeveloperBasicGameState
+import net.praqma.lifeofdev.game.OneDeveloperBasicGameState
 import net.praqma.lifeofdev.game.Game
 import net.praqma.lifeofdev.game.GitGame
 
@@ -11,9 +12,13 @@ class App {
 
     static void main(String[] args) {
 
-        Game g = new GitGame()
-
+        Game g = new GitGame(new OneDeveloperBasicGameState())
         g.start()
+        g.report()
+
+        g = new GitGame(new NDeveloperBasicGameState(2))
+        g.start()
+        g.report()
 
 /*
         Developer a = new Developer()
@@ -23,8 +28,6 @@ class App {
         Commit c = new Commit([], changes, a, "this is a random string")
         println(c)
 */
-
-
 
     }
 }
