@@ -1,12 +1,15 @@
-package net.praqma.lifeofdev
+package net.praqma.lifeofdev.actor
 
 import org.apache.commons.lang3.RandomUtils
+
+import net.praqma.lifeofdev.game.GameState
+import net.praqma.lifeofdev.Work
 
 class Developer implements Actor {
   Work workInProgress
   int skillLevel = 995
 
-  public void act() {
+  public void act(GameState gameState) {
     println "Developing"
     //Do five units of work per act
     (0..4).each {
@@ -14,7 +17,7 @@ class Developer implements Actor {
     }
   }
 
-  Developer () {
+  public Developer () {
     workInProgress = new Work()
   }
 

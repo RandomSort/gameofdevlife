@@ -1,8 +1,10 @@
 package net.praqma.lifeofdev.git
+
 import static org.apache.commons.codec.digest.MessageDigestAlgorithms.SHA_224
 import org.apache.commons.lang3.RandomUtils
 import org.apache.commons.codec.digest.DigestUtils
-import net.praqma.lifeofdev.Developer
+
+import net.praqma.lifeofdev.actor.Developer
 import net.praqma.lifeofdev.Work
 
 class Commit implements Treeish {

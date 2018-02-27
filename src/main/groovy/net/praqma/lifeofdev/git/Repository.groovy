@@ -1,7 +1,7 @@
 package net.praqma.lifeofdev.git
-import net.praqma.lifeofdev.Developer
-import net.praqma.lifeofdev.Work
 
+import net.praqma.lifeofdev.actor.Developer
+import net.praqma.lifeofdev.Work
 
 class Repository {
   ArrayList<Branch> branches = new ArrayList<Branch>()
@@ -13,7 +13,7 @@ class Repository {
     HEAD.commit = c
   }
 
-  public void Repository() {
+  public Repository() {
     HEAD = new Branch(name: "master", commit: null)
   }
 
