@@ -16,7 +16,7 @@ class GitGame implements Game {
         // hardcoded setup
 
         // a gitgame has 1 developer
-        g.addActor(new Developer())
+        addActor(new Developer())
 
     }
 
