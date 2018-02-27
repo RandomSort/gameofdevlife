@@ -1,8 +1,10 @@
 package net.praqma.lifeofdev.game
 
+import net.praqma.lifeofdev.Work
 import net.praqma.lifeofdev.actor.Actor
 import net.praqma.lifeofdev.actor.Developer
-import net.praqma.lifeofdev.game.GameState
+import net.praqma.lifeofdev.git.Commit
+import net.praqma.lifeofdev.git.Repository
 
 class GitGame implements Game {
 
@@ -34,7 +36,7 @@ class GitGame implements Game {
             println(gameState.step)
 
             // if some condition is satisfied set gameover = true
-            if(gameState.step > 10){ // hardcoded game-ending condition
+            if(gameState.step >= 10){ // hardcoded game-ending condition
 
                 // A gitgame stops after 10 rounds
                 gameState.gameOver = true
@@ -42,6 +44,21 @@ class GitGame implements Game {
             }
 
         }
+
+        // q0: how much value is in the developers local repository?
+        gameState.actors.each {
+            Actor actor ->
+                if(actor.getClass() == Developer){
+                    Developer d = (Developer) actor
+
+                    println "Value of Developer: " + d.toString() + " : " + d.localRepository.getValue()
+
+                }
+
+        }
+
+        // q1: how much value is in the global repository?
+        println "Value of remote: " + gameState.remote.getValue()
 
         // print some final state
 

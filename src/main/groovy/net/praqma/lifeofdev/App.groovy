@@ -11,7 +11,6 @@ class App {
 
     static void main(String[] args) {
 
-
         Game g = new GitGame()
 
         g.start()

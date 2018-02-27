@@ -4,15 +4,18 @@ import org.apache.commons.lang3.RandomUtils
 
 import net.praqma.lifeofdev.game.GameState
 import net.praqma.lifeofdev.Work
+import net.praqma.lifeofdev.git.Repository
 
 class Developer implements Actor {
   Work workInProgress
   int skillLevel = 995
 
+  Repository localRepository = new Repository()
+
   public void act(GameState gameState) {
     println "Developing"
     //Do five units of work per act
-    (0..4).each {
+    5.times {
       doUnitOfWork()
     }
   }
@@ -29,6 +32,15 @@ class Developer implements Actor {
     if(skillRoll > skillLevel) {
       workInProgress.bugs++
     }
+
+    // assume the developer is basic fantastic and commits after every piece of work.
+    CommitWIP()
+
+  }
+
+  public CommitWIP(){
+    localRepository.makeCommit(workInProgress, this, "did stuff")
+    workInProgress = new Work()
   }
 
   public String toString() {
