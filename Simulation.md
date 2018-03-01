@@ -25,6 +25,8 @@ How much to penalize for having bugs in production.
 
 How much work or how many steps between deliveries
 
+### How many developers are collaborating
+
 ### What is the probability of a merge conflict (Only relevant for 1+ developers )
 
 When I try to deliver what is the probability that my delivery will have a merge conflict with the previous delivery
