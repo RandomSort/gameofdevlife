@@ -13,10 +13,8 @@ class App {
     static void main(String[] args) {
 
         Game g = new GitGame(new OneDeveloperBasicGameState())
-        g.start()
-        g.report()
+        // Game g = new GitGame(new NDeveloperBasicGameState(2))
 
-        g = new GitGame(new NDeveloperBasicGameState(2))
         g.start()
         g.report()
 

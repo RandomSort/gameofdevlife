@@ -26,12 +26,12 @@ class GitGame implements Game {
             gameState.step++
 
             // TODO defer to logging
-            println(gameState.step)
+            println("Step: " + gameState.step)
 
             // if some condition is satisfied set gameover = true
-            if(gameState.step >= 10){ // hardcoded game-ending condition
+            if(gameState.step >= 5){ // hardcoded game-ending condition
 
-                // A gitgame stops after 10 rounds
+                // A gitgame stops after 5 rounds
                 gameState.gameOver = true
 
             }
@@ -54,7 +54,7 @@ class GitGame implements Game {
                     Developer d = (Developer) actor
 
                     // TODO defer to logging
-                    println "Value of Developer: " + d.toString() + " : " + d.localRepository.getValue()
+                    println "Value of Developer: " + d.toString() + ". LocalRepoValue: " +  d.localRepository.getValue()
 
                 }
 
