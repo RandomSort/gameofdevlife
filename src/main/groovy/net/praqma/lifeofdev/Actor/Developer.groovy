@@ -45,6 +45,7 @@ class Developer implements Actor {
         workInProgress = new Work()
         workActions.put(WorkAction.ACTION.DEVELOP, new DevelopWorkAction())
         workActions.put(WorkAction.ACTION.COMMIT_WIP, new CommitWIPWorkAction())
+        workActions.put(WorkAction.ACTION.DELIVER, new DeliverWorkAction())
     }
 
     /**
@@ -55,11 +56,14 @@ class Developer implements Actor {
     public boolean doWorkAction(WorkAction.ACTION action){
 
         if(!workActions.containsKey(action)){
-            println "Incapable of performing " + Action.toString()
+            println "Incapable of performing " + action.toString()
             return false
         }
 
         WorkAction wa = workActions.get(action)
+
+        // TODO defer to logging
+        println "Action: " + wa.getName()
 
         if(actionsLeftThisStep < wa.getActionCost()){
             println "Couldn't " + wa.getName().toLowerCase() + ", not enough actions left"

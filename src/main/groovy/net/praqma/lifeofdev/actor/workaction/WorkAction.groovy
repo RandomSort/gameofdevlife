@@ -6,7 +6,8 @@ interface WorkAction {
 
     public enum ACTION {
         DEVELOP,
-        COMMIT_WIP
+        COMMIT_WIP,
+        DELIVER
     }
 
 

@@ -8,9 +8,6 @@ class CommitWIPWorkAction implements WorkAction {
 
     boolean doAction(Developer developer) {
 
-        // TODO defer to logging
-        println "Action: Commiting"
-
         developer.localRepository.makeCommit(developer.workInProgress, developer, "did stuff")
         developer.workInProgress = new Work()
 

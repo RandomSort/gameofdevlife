@@ -7,9 +7,6 @@ class DevelopWorkAction implements WorkAction {
 
     boolean doAction(Developer developer) {
 
-        // TODO defer to logging
-        println "Action: Developing"
-
         //Add a unit of value to the WIP
         //If we miss our skill test also add a bug
         def skillRoll = RandomUtils.nextInt(0, 1000)

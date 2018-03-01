@@ -5,7 +5,14 @@ import net.praqma.lifeofdev.actor.Developer
 
 class GitGame implements Game {
 
-    GameState gameState
+    // fake singleton-like behaviour of pluggable gamestate instance
+    // We allow static access to this and perform null-checks
+    //  because we want singleton-like access to the gameState, for there will ALWAYS only be one
+    //  but the gamestates will differ different, corresponding to the specific subclass we've used
+    //  to create them.
+    // We could do this with ONE singleton class, and a tonne of different "constructor-methods"
+    //   but that would totally flood the single class file, and JAVA doesn't support Partial-classes
+    static GameState gameState = null
 
     // perform setup of game
     public GitGame(gameState){
@@ -20,9 +27,11 @@ class GitGame implements Game {
         while(!gameState.gameOver){
             // step
 
+            // ACT actors one at a time, in parallel
             gameState.actors.each { Actor actor ->
                 actor.act(gameState) // allow actors to modify gamestate
             }
+
             gameState.step++
 
             // TODO defer to logging
@@ -54,7 +63,7 @@ class GitGame implements Game {
                     Developer d = (Developer) actor
 
                     // TODO defer to logging
-                    println "Value of Developer: " + d.toString() + ". LocalRepoValue: " +  d.localRepository.getValue()
+                    println "Value of Developer: " + d.toString() + ". LocalRepoInventoryValue: " +  d.localRepository.getInventoryValue()
 
                 }
 
@@ -62,7 +71,7 @@ class GitGame implements Game {
 
         // q1: how much value is in the global repository?
         // TODO defer to logging
-        println "Value of remote: " + gameState.remote.getValue()
+        println "Value of remote: " + gameState.ORIGIN.getValue()
 
         // print some final state
     }
