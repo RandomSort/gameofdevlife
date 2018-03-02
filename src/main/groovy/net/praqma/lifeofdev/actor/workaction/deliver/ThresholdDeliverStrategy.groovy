@@ -13,9 +13,9 @@ class ThresholdDeliverStrategy implements DeliverStrategy {
     @Override
     boolean deliver(Developer developer) {
 
-        // if the threshold is reached, deliver
+        // if we reach the threshold, deliver!
         int localInventoryValue = developer.localRepository.getInventoryValue()
-        if(localInventoryValue > localRepoValueThreshold){
+        if(localInventoryValue >= localRepoValueThreshold){
             if(developer.doWorkAction(WorkAction.ACTION.DELIVER)){
                 // if we succeeded delivering, continue
                 return true

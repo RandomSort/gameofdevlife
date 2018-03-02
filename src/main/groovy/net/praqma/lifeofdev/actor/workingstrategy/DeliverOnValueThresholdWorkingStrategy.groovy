@@ -23,7 +23,7 @@ class DeliverOnValueThresholdWorkingStrategy implements WorkingStrategy {
 
             // if the threshold is reached, deliver
             int localInventoryValue = developer.localRepository.getInventoryValue()
-            if(localInventoryValue > localRepoValueThreshold){
+            if(localInventoryValue >= localRepoValueThreshold){
                 // TODO defer to logging
                 if(printChoice) println "CHOICE: delivering since local InventoryValue is: " + localInventoryValue + ", above threshold: " + localRepoValueThreshold
                 if(developer.doWorkAction(WorkAction.ACTION.DELIVER)){

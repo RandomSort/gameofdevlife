@@ -14,8 +14,8 @@ class ThresholdCommitStrategy implements CommitStrategy {
     boolean commit(Developer developer) {
 
 
-        // if we exceed the threshold, commit!
-        if(developer.workInProgress.value > WIPValueThreshold){
+        // if we reach the threshold, commit!
+        if(developer.workInProgress.value >= WIPValueThreshold){
 
             if(developer.doWorkAction(WorkAction.ACTION.COMMIT_WIP)){
                 // if we succeeded committing, return true
