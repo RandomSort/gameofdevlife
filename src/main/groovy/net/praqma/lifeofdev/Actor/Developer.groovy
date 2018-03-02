@@ -85,5 +85,3 @@ class Developer implements Actor {
         return "Developer: WIP ${workInProgress.value}(${workInProgress.bugs})"
     }
 }
-
-
