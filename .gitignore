@@ -5,3 +5,4 @@ build/
 bin/
 .project
 .idea/
+logs/
