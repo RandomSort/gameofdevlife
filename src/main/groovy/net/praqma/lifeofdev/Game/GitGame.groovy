@@ -18,7 +18,7 @@ class GitGame implements Game {
     protected Logger dataLogger
     protected Logger logger
     // perform setup of game
-    public GitGame(gameState, logger, dataLogger){
+    public GitGame(gameState, logger, dataLogger = null){
 
         this.gameState = gameState
         this.logger = logger
@@ -69,7 +69,7 @@ class GitGame implements Game {
             Actor actor ->
                 if(actor.getClass() == Developer){
                     Developer d = (Developer) actor
-                    dataLogger.info("${gameState.step}: developer: ${d}; ${d.localRepository.getInventoryValue()}")
+                    datapoint("${gameState.step}: developer: ${d}; ${d.localRepository.getInventoryValue()}")
                     // TODO defer to logging
                     logger.info("Value of Developer: " + d.toString() + ". LocalRepoInventoryValue: " +  d.localRepository.getInventoryValue())
 
@@ -93,6 +93,11 @@ class GitGame implements Game {
         gameState.actors.each { actor ->
           logger.info(actor)
         }
+    }
+    public void datapoint(String msg) {
+      if(dataLogger) {
+        dataLogger.info(msg)
+      }
     }
 
 }

@@ -2,9 +2,13 @@ package net.praqma.lifeofdev.utils
 
 class FileLogger extends Logger {
   File outputFile
-  FileLogger(File outputFile) {
-    this.outputFile = outputFile
-    this.outputFile.text = ""
+  FileLogger(String filePath) {
+    File logDir = new File("logs")
+    if(!logDir.exists()) {
+        logDir.mkdirs()
+    }
+    outputFile = new File("logs/${filePath}")
+    outputFile.text = ""
   }
   public void output(String prefix, String msg) {
     if (usePrefix) {
