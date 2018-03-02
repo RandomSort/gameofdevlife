@@ -7,11 +7,22 @@ class DeliverWorkAction implements WorkAction {
     boolean doAction(Developer developer) {
 
         // Push the local to "its upstream" - abstraction: there only exists one remote = must be upstream
-        developer.localRepository.push()
-        // Reset the inventory value, as we've clearly just pushed everything we have
-        developer.localRepository.inventoryValueAtLastCalculation = 0
+        if(developer.localRepository.push()){
 
-        return true
+            // Reset the inventory value, as we've clearly just pushed everything we have
+            developer.localRepository.inventoryValueAtLastCalculation = 0
+        } else {
+            // sth went wrong. What? - right now, only a mergeconflict can go wrong..
+            // and that the gamestate is NULL but then everything dies so..
+            // NOTGONNADO implement HTTPresponse-like error messaging system
+
+            // get changes from remote, such that we may hopefully commit, "the next time"
+            developer.localRepository.pull()
+
+        }
+
+        return true // we've done work..
+
     }
 
     @Override

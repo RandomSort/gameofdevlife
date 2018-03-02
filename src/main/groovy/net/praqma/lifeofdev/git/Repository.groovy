@@ -4,6 +4,9 @@ import net.praqma.lifeofdev.actor.Developer
 import net.praqma.lifeofdev.Work
 import net.praqma.lifeofdev.game.GameState
 import net.praqma.lifeofdev.game.GitGame
+import net.praqma.lifeofdev.git.pushstrategy.AcceptAllPushStrategy
+import net.praqma.lifeofdev.git.pushstrategy.OnlyFFPushStrategy
+import net.praqma.lifeofdev.git.pushstrategy.PushStrategy
 
 class Repository {
     ArrayList<Branch> branches = new ArrayList<Branch>()
@@ -12,6 +15,11 @@ class Repository {
     HashMap<String, Commit> commits = new HashMap<String, Commit>()
 
     Treeish HEAD
+
+    // PushStrategy ps = new AcceptAllPushStrategy(this)
+    PushStrategy ps = new OnlyFFPushStrategy(this)
+
+    int ORIGINvalue = 0
 
     public void makeCommit(Work w, Developer author, String message) {
         addCommit(newRepoCommit(w, author, message))
@@ -81,15 +89,7 @@ class Repository {
     public boolean push(){
         if(GitGame.gameState == null) return false // fake singleton-like behaviour of pluggable gamestate instance
 
-        commits.values().each { Commit commit ->
-
-            // if the commit is already on origin, continue (return inside each = continue)
-            if(GitGame.gameState.ORIGIN.commits.containsKey(commit.sha)) return
-
-            GitGame.gameState.ORIGIN.addCommit(commit)
-        }
-
-        return true
+        return ps.push()
 
     }
 
@@ -111,14 +111,14 @@ class Repository {
         }
 
         int value = 0
-        ArrayList<String> workSeen = new ArrayList<>()
+        ArrayList<String> commitSeen = new ArrayList<>()
 
         HashMap<String, Commit> commitsOnOrigin = GitGame.gameState.ORIGIN.commits
 
         for (Commit c in commits.values()){
 
-            if(!workSeen.contains(c.sha) && !commitsOnOrigin.containsKey(c.sha)){
-                workSeen.add(c.sha)
+            if(!commitSeen.contains(c.sha) && !commitsOnOrigin.containsKey(c.sha)){
+                commitSeen.add(c.sha)
                 c.changes.each { Work w ->
                     value += w.value
                 }
@@ -133,5 +133,29 @@ class Repository {
         return value
     }
 
+    boolean pull() {
 
+        HashMap<String, Commit> commitsOnOrigin = GitGame.gameState.ORIGIN.commits
+
+        ArrayList<String> commitNotOnLocal = new ArrayList<>()
+
+        // Get a list of the commits on the remote, not on the local
+        for (String sha in commitsOnOrigin.keySet()){
+
+            if(commits.containsKey(sha)){
+                continue // we have the commit locally
+            }
+
+            commitNotOnLocal.add(sha)
+        }
+
+        // Add the commits not on local, to the local commits
+        for (String sha in commitNotOnLocal){
+            commits.put(sha, commitsOnOrigin.get(sha))
+        }
+
+        ORIGINvalue = GitGame.gameState.ORIGIN.getValue() // Update the local idea of the remote value
+
+        return true
+    }
 }

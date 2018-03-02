@@ -13,7 +13,7 @@ class App {
 
     static void main(String[] args) {
 
-        Game g = new GitGame(new OneDeveloperBasicGameState(),new PrintLogger(usePrefix: true), new FileLogger(new File("log.txt")))
+        Game g = new GitGame(new NDeveloperBasicGameState(4),new PrintLogger(usePrefix: true), new FileLogger(new File("log.txt")))
         // Game g = new GitGame(new NDeveloperBasicGameState(2))
         g.reportAfterEachStep = true
         g.start()
