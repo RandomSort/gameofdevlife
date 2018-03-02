@@ -13,7 +13,7 @@ class DeliverOnValueThresholdWorkingStrategy implements WorkingStrategy {
         this.developer = developer
     }
 
-    boolean printChoice = true
+    boolean printChoice = false
 
     @Override
     void work() {
@@ -32,15 +32,8 @@ class DeliverOnValueThresholdWorkingStrategy implements WorkingStrategy {
                 }
             }
 
-            // if we have more than one action left, develop
-            if(developer.actionsLeftThisStep > 1){
-                // TODO defer to logging
-                if(printChoice) println "CHOICE: developing since we have more than 1 (" + developer.actionsLeftThisStep + ") actions left left"
-                if(developer.doWorkAction(WorkAction.ACTION.DEVELOP)){
-                    // if we succeeded developing, continue
-                    continue
-                }
-            } else {
+            // if we have exactly one action left, commit!
+            if(developer.actionsLeftThisStep == 1){
 
                 if(printChoice) println "CHOICE: committing since we only have 1 action left"
 
@@ -49,6 +42,15 @@ class DeliverOnValueThresholdWorkingStrategy implements WorkingStrategy {
                     // if we succeeded committing, continue
                     continue
                 }
+
+            }
+
+            // when we've not delivered or committed, just progress with some development
+            // TODO defer to logging
+            if(printChoice) println "CHOICE: developing since we have more than 1 (" + developer.actionsLeftThisStep + ") actions left left"
+            if(developer.doWorkAction(WorkAction.ACTION.DEVELOP)){
+                // if we succeeded developing, continue
+                continue
             }
 
             // We "continue" after each action,

@@ -1,17 +1,16 @@
 package net.praqma.lifeofdev.actor
 
 import net.praqma.lifeofdev.actor.workaction.*
-import net.praqma.lifeofdev.actor.workingstrategy.CommitLastWorkingStrategy
-import net.praqma.lifeofdev.actor.workingstrategy.DeliverOnValueThresholdWorkingStrategy
-import net.praqma.lifeofdev.actor.workingstrategy.NeverCommitWorkingStrategy
+import net.praqma.lifeofdev.actor.workaction.commit.LastInStepCommitStrategy
+import net.praqma.lifeofdev.actor.workaction.commit.NeverCommitStrategy
+import net.praqma.lifeofdev.actor.workaction.commit.ThresholdCommitStrategy
+import net.praqma.lifeofdev.actor.workaction.deliver.NeverDeliverStrategy
+import net.praqma.lifeofdev.actor.workaction.deliver.ThresholdDeliverStrategy
 import net.praqma.lifeofdev.actor.workingstrategy.WorkingStrategy
-import org.apache.commons.lang3.RandomUtils
-
+import net.praqma.lifeofdev.actor.workingstrategy.WorkingStrategyFactory
 import net.praqma.lifeofdev.game.GameState
 import net.praqma.lifeofdev.Work
 import net.praqma.lifeofdev.git.Repository
-
-import javax.swing.Action
 
 class Developer implements Actor {
     Work workInProgress
@@ -19,9 +18,15 @@ class Developer implements Actor {
 
     Repository localRepository = new Repository()
 
-    //WorkingStrategy ws = new NeverCommitWorkingStrategy(this)
-    //WorkingStrategy ws = new CommitLastWorkingStrategy(this)
-    WorkingStrategy ws = new DeliverOnValueThresholdWorkingStrategy(this, 10)
+
+    //WorkingStrategy ws = new WorkingStrategyFactory(this, new NeverCommitStrategy(), new NeverDeliverStrategy())// NeverCommitWorkingStrategy(this)
+    // WorkingStrategy ws = new NeverCommitWorkingStrategy(this)
+
+    //WorkingStrategy ws = new WorkingStrategyFactory(this, new LastInStepCommitStrategy(), new NeverDeliverStrategy()) // CommitLastWorkingStrategy(this)
+
+    //WorkingStrategy ws = new WorkingStrategyFactory(this, new LastInStepCommitStrategy(), new ThresholdDeliverStrategy(10)) // DeliverOnValueThresholdWorkingStrategy(10)
+    WorkingStrategy ws = new WorkingStrategyFactory(this, new ThresholdCommitStrategy(3), new ThresholdDeliverStrategy(10))
+
 
     int actionsLeftThisStep
     final int ACTIONS_PER_STEP = 5 //allow some developers to be more productive #scopecreep #morefeatures
