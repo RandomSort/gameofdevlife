@@ -43,7 +43,7 @@ class GitGame implements Game {
             println("Step: " + gameState.step)
 
             // if some condition is satisfied set gameover = true
-            if(gameState.step >= 5){ // hardcoded game-ending condition
+            if(gameState.step >= 100){ // hardcoded game-ending condition
 
                 // A gitgame stops after 5 rounds
                 gameState.gameOver = true
@@ -95,8 +95,17 @@ class GitGame implements Game {
         }
     }
     public void datapoint(String msg) {
+        def totalLocalValue = 0
+        def totalWIPValue = 0
+        def totalRemoteValue = 0
+        gameState.actors.each { d ->
+            totalLocalValue = d.localRepository.getInventoryValue()
+            totalWIPValue = d.workInProgress.value
+            totalRemoteValue = gameState.ORIGIN.getValue()
+        }
       if(dataLogger) {
-        dataLogger.info(msg)
+          dataLogger.info("$gameState.step,$totalLocalValue,$totalWIPValue,$totalRemoteValue")
+        //dataLogger.info(msg)
       }
     }
 
