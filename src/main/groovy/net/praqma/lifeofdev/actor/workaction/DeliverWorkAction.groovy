@@ -16,8 +16,8 @@ class DeliverWorkAction implements WorkAction {
             // and that the gamestate is NULL but then everything dies so..
             // NOTGONNADO implement HTTPresponse-like error messaging system
 
-            // get changes from remote, such that we may hopefully commit, "the next time"
-            developer.localRepository.pull()
+            // we might be able to pull, depending on the state of our developer
+            developer.localRepository.pull(developer)
 
         }
 

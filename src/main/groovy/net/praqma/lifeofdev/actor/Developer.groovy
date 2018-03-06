@@ -5,7 +5,9 @@ import net.praqma.lifeofdev.actor.workaction.CommitWIPWorkAction
 import net.praqma.lifeofdev.actor.workaction.DeliverWorkAction
 import net.praqma.lifeofdev.actor.workaction.DevelopWorkAction
 import net.praqma.lifeofdev.actor.workaction.WorkAction
+import net.praqma.lifeofdev.actor.workaction.commit.CommitStrategy
 import net.praqma.lifeofdev.actor.workaction.commit.ThresholdCommitStrategy
+import net.praqma.lifeofdev.actor.workaction.deliver.DeliverStrategy
 import net.praqma.lifeofdev.actor.workaction.deliver.ThresholdDeliverStrategy
 import net.praqma.lifeofdev.actor.workingstrategy.WorkingStrategy
 import net.praqma.lifeofdev.actor.workingstrategy.WorkingStrategyFactory
@@ -16,17 +18,9 @@ class Developer implements Actor {
     Work workInProgress
     int skillLevel = 995
 
-    Repository localRepository = new Repository()
+    Repository localRepository
 
-
-    //WorkingStrategy ws = new WorkingStrategyFactory(this, new NeverCommitStrategy(), new NeverDeliverStrategy())// NeverCommitWorkingStrategy(this)
-    // WorkingStrategy ws = new NeverCommitWorkingStrategy(this)
-
-    //WorkingStrategy ws = new WorkingStrategyFactory(this, new LastInStepCommitStrategy(), new NeverDeliverStrategy()) // CommitLastWorkingStrategy(this)
-
-    //WorkingStrategy ws = new WorkingStrategyFactory(this, new LastInStepCommitStrategy(), new ThresholdDeliverStrategy(10)) // DeliverOnValueThresholdWorkingStrategy(10)
-    WorkingStrategy ws = new WorkingStrategyFactory(this, new ThresholdCommitStrategy(3), new ThresholdDeliverStrategy(10))
-
+    WorkingStrategy ws
 
     int actionsLeftThisStep
     final int ACTIONS_PER_STEP = 5 //allow some developers to be more productive #scopecreep #morefeatures
@@ -51,6 +45,30 @@ class Developer implements Actor {
         workActions.put(WorkAction.ACTION.DEVELOP, new DevelopWorkAction())
         workActions.put(WorkAction.ACTION.COMMIT_WIP, new CommitWIPWorkAction())
         workActions.put(WorkAction.ACTION.DELIVER, new DeliverWorkAction())
+
+        this.localRepository = new Repository()
+
+
+        //this.ws  = new WorkingStrategyFactory(this, new NeverCommitStrategy(), new NeverDeliverStrategy())// NeverCommitWorkingStrategy(this)
+        //this.ws  = new NeverCommitWorkingStrategy(this)
+
+        //this.ws  = new WorkingStrategyFactory(this, new LastInStepCommitStrategy(), new NeverDeliverStrategy()) // CommitLastWorkingStrategy(this)
+
+        //this.ws  = new WorkingStrategyFactory(this, new LastInStepCommitStrategy(), new ThresholdDeliverStrategy(10)) // DeliverOnValueThresholdWorkingStrategy(10)
+        this.ws = new WorkingStrategyFactory(this, new ThresholdCommitStrategy(3), new ThresholdDeliverStrategy(10))
+
+    }
+
+    public Developer(Repository repo, CommitStrategy cs, DeliverStrategy ds){
+        workInProgress = new Work()
+        workActions.put(WorkAction.ACTION.DEVELOP, new DevelopWorkAction())
+        workActions.put(WorkAction.ACTION.COMMIT_WIP, new CommitWIPWorkAction())
+        workActions.put(WorkAction.ACTION.DELIVER, new DeliverWorkAction())
+
+        this.localRepository = repo
+
+        this.ws = new WorkingStrategyFactory(this, cs, ds)
+
     }
 
     /**

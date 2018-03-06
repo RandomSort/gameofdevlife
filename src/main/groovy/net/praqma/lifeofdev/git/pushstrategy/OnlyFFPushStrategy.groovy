@@ -16,6 +16,7 @@ class OnlyFFPushStrategy implements PushStrategy {
 
         // does the remote contain work we do not have locally?
         if(repository.ORIGINvalue != GitGame.gameState.ORIGIN.getValue()){
+
             return false // there's something on the remote we don't have, cant commit
         }
 
@@ -26,6 +27,9 @@ class OnlyFFPushStrategy implements PushStrategy {
 
             GitGame.gameState.ORIGIN.addCommit(commit)
         }
+
+        // we just made changes to the remote, we should update our idea of it
+        repository.ORIGINvalue = GitGame.gameState.ORIGIN.getValue()
 
         return true
 

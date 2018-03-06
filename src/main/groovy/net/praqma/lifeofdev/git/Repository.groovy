@@ -2,9 +2,15 @@ package net.praqma.lifeofdev.git
 
 import net.praqma.lifeofdev.actor.Developer
 import net.praqma.lifeofdev.Work
-import net.praqma.lifeofdev.game.GameState
 import net.praqma.lifeofdev.game.GitGame
-import net.praqma.lifeofdev.git.pushstrategy.AcceptAllPushStrategy
+import net.praqma.lifeofdev.git.mergeconflict.costStrategy.ConstantMergeConflictCostStrategy
+import net.praqma.lifeofdev.git.mergeconflict.costStrategy.InventoryMergeConflictCostStrategy
+import net.praqma.lifeofdev.git.mergeconflict.costStrategy.LocalOriginDiffMergeConflictCostStrategy
+import net.praqma.lifeofdev.git.mergeconflict.costStrategy.MergeConflictCostStrategy
+import net.praqma.lifeofdev.git.mergeconflict.probabilitystrategy.LocalOriginDiffMergeConflictProbabilityStrategy
+import net.praqma.lifeofdev.git.mergeconflict.probabilitystrategy.MergeConflictProbabilityStrategy
+import net.praqma.lifeofdev.git.mergeconflict.probabilitystrategy.InventoryMergeConflictProbabilityStrategy
+import net.praqma.lifeofdev.git.mergeconflict.probabilitystrategy.PercentageMergeConflictProbabilityStrategy
 import net.praqma.lifeofdev.git.pushstrategy.OnlyFFPushStrategy
 import net.praqma.lifeofdev.git.pushstrategy.PushStrategy
 
@@ -16,8 +22,11 @@ class Repository {
 
     Treeish HEAD
 
-    // PushStrategy ps = new AcceptAllPushStrategy(this)
-    PushStrategy ps = new OnlyFFPushStrategy(this)
+    PushStrategy ps
+
+    MergeConflictProbabilityStrategy mcps
+
+    MergeConflictCostStrategy mccs
 
     int ORIGINvalue = 0
 
@@ -56,7 +65,23 @@ class Repository {
 
     public Repository() {
         HEAD = new Branch(name: "master", commit: null)
+
+        // PushStrategy ps = new AcceptAllPushStrategy(this)
+        this.ps = new OnlyFFPushStrategy(this)
+
+        this.mcps = new PercentageMergeConflictProbabilityStrategy(this, 0) // we never have a merge conflict
+        // MergeConflictProbabilityStrategy mcps = new PercentageMergeConflictProbabilityStrategy(this, 80) // 80% chance
+        // MergeConflictProbabilityStrategy mcps = new InventoryMergeConflictProbabilityStrategy(this, 15) // 15% per InventoryValue
+        // 2% per InventoryValue and difference in remote and local idea of remote (with 5 developers, it becomes somewhat normalized to 0-100)
+        // MergeConflictProbabilityStrategy mcps = new LocalOriginDiffMergeConflictProbabilityStrategy(this, 2)
+
+        this.mccs = new ConstantMergeConflictCostStrategy(0) // merging is free (only trivial conflicts)
+        // MergeConflictCostStrategy mccs = new ConstantMergeConflictCostStrategy(1) // merging costs 1 (only easy conflicts, but a conflict takes time)
+        // MergeConflictCostStrategy mccs = new InventoryMergeConflictCostStrategy(this, 0.2) // merging costs 0.2 per InventoryValue, rounded to nearest integer
+        // MergeConflictCostStrategy mccs = new LocalOriginDiffMergeConflictCostStrategy(this, 0.05) // merging costs 0.05 per difference in InventoryValue locally + the Value only on the remote
+
     }
+
 
     /**
      * What's the explicit value of the repsitory
@@ -133,7 +158,16 @@ class Repository {
         return value
     }
 
-    boolean pull() {
+    /**
+     * Attempt to pull from origin, the pullMoney determines whether the pull can succeed
+     * @param pullMoney the cost of making the pull
+     * @return
+     */
+    boolean pull(Developer developer) {
+
+        if(GitGame.gameState == null) return false // fake singleton-like behaviour of pluggable gamestate instance
+
+        // get difference from origin
 
         HashMap<String, Commit> commitsOnOrigin = GitGame.gameState.ORIGIN.commits
 
@@ -149,6 +183,25 @@ class Repository {
             commitNotOnLocal.add(sha)
         }
 
+        if(commitNotOnLocal.size() == 0){
+            // local is equal to origin
+            return true
+        }
+
+        // Is there a merge conflict?
+        if(mcps.isMergeConflict()){
+
+            // Can we afford to solve the merge conflict?
+            int mergeConflictCost = mccs.getCost()
+
+            if(mergeConflictCost > developer.actionsLeftThisStep){
+                return false // could not pull
+            }
+
+            developer.actionsLeftThisStep -= mergeConflictCost
+
+        }
+
         // Add the commits not on local, to the local commits
         for (String sha in commitNotOnLocal){
             commits.put(sha, commitsOnOrigin.get(sha))
@@ -157,5 +210,6 @@ class Repository {
         ORIGINvalue = GitGame.gameState.ORIGIN.getValue() // Update the local idea of the remote value
 
         return true
+
     }
 }

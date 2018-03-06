@@ -6,7 +6,7 @@ import net.praqma.lifeofdev.actor.workaction.commit.CommitStrategy
 import net.praqma.lifeofdev.actor.workaction.deliver.DeliverStrategy
 
 class WorkingStrategyFactory implements WorkingStrategy {
-    private Developer developer
+    public Developer developer
     private CommitStrategy commitStrategy
     private DeliverStrategy deliverStrategy
 
