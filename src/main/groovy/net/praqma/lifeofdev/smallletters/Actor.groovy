@@ -1,4 +1,4 @@
-package net.praqma.lifeofdev.actor
+package net.praqma.lifeofdev.smallletters
 
 import net.praqma.lifeofdev.game.GameState
 
