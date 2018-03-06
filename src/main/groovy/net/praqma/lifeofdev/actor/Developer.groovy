@@ -1,15 +1,15 @@
-package net.praqma.lifeofdev.smallletters
+package net.praqma.lifeofdev.actor
 
-import net.praqma.lifeofdev.actor.workaction.*
-import net.praqma.lifeofdev.actor.workaction.commit.LastInStepCommitStrategy
-import net.praqma.lifeofdev.actor.workaction.commit.NeverCommitStrategy
+import net.praqma.lifeofdev.Work
+import net.praqma.lifeofdev.actor.workaction.CommitWIPWorkAction
+import net.praqma.lifeofdev.actor.workaction.DeliverWorkAction
+import net.praqma.lifeofdev.actor.workaction.DevelopWorkAction
+import net.praqma.lifeofdev.actor.workaction.WorkAction
 import net.praqma.lifeofdev.actor.workaction.commit.ThresholdCommitStrategy
-import net.praqma.lifeofdev.actor.workaction.deliver.NeverDeliverStrategy
 import net.praqma.lifeofdev.actor.workaction.deliver.ThresholdDeliverStrategy
 import net.praqma.lifeofdev.actor.workingstrategy.WorkingStrategy
 import net.praqma.lifeofdev.actor.workingstrategy.WorkingStrategyFactory
 import net.praqma.lifeofdev.game.GameState
-import net.praqma.lifeofdev.Work
 import net.praqma.lifeofdev.git.Repository
 
 class Developer implements Actor {
