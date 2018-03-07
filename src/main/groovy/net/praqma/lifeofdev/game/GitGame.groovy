@@ -17,6 +17,8 @@ class GitGame implements Game {
     boolean reportAfterEachStep = false
     protected Logger dataLogger
     protected Logger logger
+    int cumulativeValue = 0
+    int maxSteps = 10000
     // perform setup of game
     public GitGame(gameState, logger, dataLogger = null){
 
@@ -43,9 +45,9 @@ class GitGame implements Game {
             println("Step: " + gameState.step)
 
             // if some condition is satisfied set gameover = true
-            if(gameState.step >= 100){ // hardcoded game-ending condition
+            if(gameState.step >= maxSteps){ // hardcoded game-ending condition
 
-                // A gitgame stops after 5 rounds
+                // A gitgame stops after maxSteps rounds
                 gameState.gameOver = true
 
             }
@@ -103,8 +105,9 @@ class GitGame implements Game {
             totalWIPValue = d.workInProgress.value
             totalRemoteValue = gameState.ORIGIN.getValue()
         }
+        cumulativeValue += totalRemoteValue
       if(dataLogger) {
-          dataLogger.info("$gameState.step,$totalLocalValue,$totalWIPValue,$totalRemoteValue")
+          dataLogger.info("$gameState.step,$totalLocalValue,$totalWIPValue,$totalRemoteValue,$cumulativeValue")
         //dataLogger.info(msg)
       }
     }
