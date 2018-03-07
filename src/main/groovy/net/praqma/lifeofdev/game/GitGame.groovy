@@ -18,7 +18,7 @@ class GitGame implements Game {
     protected Logger dataLogger
     protected Logger logger
     int cumulativeValue = 0
-    int maxSteps = 10000
+    int maxSteps = 100
     // perform setup of game
     public GitGame(gameState, logger, dataLogger = null){
 
