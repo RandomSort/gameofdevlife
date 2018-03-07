@@ -25,6 +25,15 @@
         g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
+    g.append("text")
+        .attr("x", (width / 2))
+        .attr("y", 10 - (margin.top / 2))
+        .attr("text-anchor", "middle")
+        .style("font-size", "16px")
+        .style("text-decoration", "underline")
+        .text("Commit threshold 10 - Deliver threshold 25");
+
+
     var x = d3.scaleLinear().range([0, width]),
         y = d3.scaleLinear().range([height, 0]),
         z = d3.scaleOrdinal(d3.schemeCategory10);

@@ -29,7 +29,7 @@
         .attr("text-anchor", "middle")
         .style("font-size", "16px")
         .style("text-decoration", "underline")
-        .text("Cumulative value on Remote - Threshold 10-25");
+        .text("5 developers - Threshold 9");
 
     var x = d3.scaleLinear().range([0, width]),
         y = d3.scaleLinear().range([height, 0]),
@@ -40,7 +40,7 @@
         .x(function(d) { return x(d.step); })
         .y(function(d) { return y(d.work); });
 
-    d3.csv("10-25-cumulative.csv", type, function(error, data) {
+    d3.csv("5dev9.csv", type, function(error, data) {
         if (error) throw error;
 
         var cities = data.columns.slice(1).map(function(id) {
@@ -51,7 +51,7 @@
                 })
             };
         });
-    console.log(cities);
+
         x.domain(d3.extent(data, function(d) { return d.step; })).ticks(5);
 
         y.domain([
@@ -74,8 +74,10 @@
             .attr("y", 6)
             .attr("dy", "0.71em")
             .attr("fill", "#000")
-            .text("\"value\"")
+            .text("\"Value\"")
             .style("font-size", "20px");
+
+
 
         var city = g.selectAll(".city")
             .data(cities)
@@ -94,6 +96,7 @@
             .attr("dy", "0.35em")
             .style("font", "10px sans-serif")
             .text(function(d) { return d.id; });
+
     });
 
     function type(d, _, columns) {

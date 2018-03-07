@@ -23,13 +23,6 @@
         height = svg.attr("height") - margin.top - margin.bottom,
         g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    g.append("text")
-        .attr("x", (width / 2))
-        .attr("y", 10 - (margin.top / 2))
-        .attr("text-anchor", "middle")
-        .style("font-size", "16px")
-        .style("text-decoration", "underline")
-        .text("Cumulative value on Remote - Threshold 10-25");
 
     var x = d3.scaleLinear().range([0, width]),
         y = d3.scaleLinear().range([height, 0]),
@@ -40,7 +33,7 @@
         .x(function(d) { return x(d.step); })
         .y(function(d) { return y(d.work); });
 
-    d3.csv("10-25-cumulative.csv", type, function(error, data) {
+    d3.csv("5dev10.csv", type, function(error, data) {
         if (error) throw error;
 
         var cities = data.columns.slice(1).map(function(id) {
@@ -76,6 +69,14 @@
             .attr("fill", "#000")
             .text("\"value\"")
             .style("font-size", "20px");
+
+        g.append("text")
+            .attr("x", (width / 2))
+            .attr("y", 10 - (margin.top / 2))
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .style("text-decoration", "underline")
+            .text("5 developers - Threshold 10");
 
         var city = g.selectAll(".city")
             .data(cities)

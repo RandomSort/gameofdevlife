@@ -22,6 +22,13 @@
         width = svg.attr("width") - margin.left - margin.right,
         height = svg.attr("height") - margin.top - margin.bottom,
         g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    g.append("text")
+        .attr("x", (width / 2))
+        .attr("y", 10 - (margin.top / 2))
+        .attr("text-anchor", "middle")
+        .style("font-size", "16px")
+        .style("text-decoration", "underline")
+        .text("Cumulative value on Remote - Threshold 25-50");
 
 
     var x = d3.scaleLinear().range([0, width]),
