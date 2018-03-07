@@ -10,12 +10,12 @@
     .line {
         fill: none;
         stroke: steelblue;
-        stroke-width: 1.5px;
+        stroke-width: 3.5px;
     }
 
 </style>
 <svg width="960" height="500"></svg>
-<script src="//d3js.org/d3.v4.min.js"></script>
+<script src="d3.v4.min.js"></script>
 <script>
 
     var svg = d3.select("svg"),
@@ -64,11 +64,12 @@
             .attr("class", "axis axis--y")
             .call(d3.axisLeft(y))
             .append("text")
-            .attr("transform", "rotate(-90)")
             .attr("y", 6)
+            .attr("x", 65)
             .attr("dy", "0.71em")
             .attr("fill", "#000")
-            .text("\"value\"");
+            .text("\"value\"")
+            .style("font-size", "20px");
 
         var city = g.selectAll(".city")
             .data(cities)
@@ -85,7 +86,7 @@
             .attr("transform", function(d) { return "translate(" + x(d.value.step) + "," + y(d.value.work) + ")"; })
             .attr("x", 3)
             .attr("dy", "0.35em")
-            .style("font", "10px sans-serif")
+            .style("font", "15px sans-serif")
             .text(function(d) { return d.id; });
     });
 

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
@@ -34,7 +33,7 @@
         .x(function(d) { return x(d.step); })
         .y(function(d) { return y(d.work); });
 
-    d3.csv("threshold3-10.csv", type, function(error, data) {
+    d3.csv("cumulative2.csv", type, function(error, data) {
         if (error) throw error;
 
         var cities = data.columns.slice(1).map(function(id) {
@@ -68,7 +67,7 @@
             .attr("y", 6)
             .attr("dy", "0.71em")
             .attr("fill", "#000")
-            .text("\"value\"")
+            .text("\"Cumulative value\"")
             .style("font-size", "20px");
 
         var city = g.selectAll(".city")

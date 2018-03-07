@@ -34,7 +34,7 @@
         .x(function(d) { return x(d.step); })
         .y(function(d) { return y(d.work); });
 
-    d3.csv("threshold3-10.csv", type, function(error, data) {
+    d3.csv("threshold25-50.csv", type, function(error, data) {
         if (error) throw error;
 
         var cities = data.columns.slice(1).map(function(id) {
